@@ -26,6 +26,6 @@ class tetrino:
         #if the block choice is random generate, choose a random block
         if(blockChoice =='rand'):
             blockChoice = random.choice(list(blockCoords))
-
+        self.name = blockChoice
         #assign blocks coordinates to tetrino coordinates
         self.coords = list(blockCoords[blockChoice])

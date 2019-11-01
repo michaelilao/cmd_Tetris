@@ -13,6 +13,8 @@ class gameBoard:
         self.score = 0
         self.board = []
         self.currentTetrino = ''
+        self.heldTetrino = ''
+
         #add a starting tetrino
         self.addTetrino('rand')
         #Create a 2D array of size 12x18
@@ -27,6 +29,23 @@ class gameBoard:
                 #else assigned empty key (0)
                 else:
                     self.board[i].append(0)
+
+
+    def holdTetrino(self):
+        tempTetrino = tetrinos.tetrino('rand')
+        if(self.heldTetrino ==''):
+            self.heldTetrino = self.currentTetrino
+        else:
+            tempTetrino = self.heldTetrino
+            self.heldTetrino = self.currentTetrino
+
+        for i in range(4):
+            y = self.currentTetrino.coords[i][0]
+            x = self.currentTetrino.coords[i][1]
+            self.setCoords(x,y,0)
+
+        self.addTetrino(tempTetrino.name)
+
 
     def reset(self):
         self.score = 0
@@ -122,16 +141,19 @@ class gameBoard:
             oldCoords.append([y,x])
         ox = self.currentTetrino.coords[0][1]
         oy = self.currentTetrino.coords[0][0]
-        #add proposed tetrino coordinates to array
         for i in range(4):
             if(doRotate):
                 x, y = self.rotateBlock(ox,oy, self.currentTetrino.coords[i][1] ,self.currentTetrino.coords[i][0], math.radians(90))
             else:
                 y = self.currentTetrino.coords[i][0]+yMove
                 x = self.currentTetrino.coords[i][1]+xMove
+
+            #add proposed tetrino coordinates to array
             newCoords.append([y,x])
             #if any of these coordinates would move into a stagnant or wall key then
             #return the oldCoords for oldCoords and newCoords to stop move
+            if(y>(height-2)):
+                return [oldCoords, oldCoords]
             if(self.board[y][x] == 4 or self.board[y][x] == 3):
                 return [oldCoords, oldCoords]
         #Update current tetrinos new coordinates
@@ -166,8 +188,6 @@ class gameBoard:
         return False
 
     def rotateBlock(self,ox,oy, px,py, angle):
-
-
         qx = ox + math.cos(angle) * (px - ox) - math.sin(angle) * (py - oy)
         qy = oy + math.sin(angle) * (px - ox) + math.cos(angle) * (py - oy)
         return int(qx), int(qy)
@@ -191,10 +211,15 @@ class gameBoard:
                 if(self.board[i][j]==3):
                     print("*", end = '')
                 if(self.board[i][j]==2):
-                    print("X", end = '')
+                    print("#", end = '')
                 if(self.board[i][j]<=1):
                     print(" ", end = '')
-            print(i, end='')
+            if(i == 6):
+                try:
+                    print("\tHolding:",self.heldTetrino.name, end='')
+                except:
+                    print("\tHolding:", end='')
+
             if(i == 4):
                 #print score on line 4
                 print("\tScore:",self.score, end='')

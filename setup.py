@@ -24,8 +24,12 @@ while(playagain):
             gameBoard.updateBoard(1,0,False)
         elif(keyboard.is_pressed('down')):
             gameBoard.updateBoard(0,2,False)
+        elif(keyboard.is_pressed('space')):
+            gameBoard.updateBoard(0,6,False)
         elif(keyboard.is_pressed('up')):
             gameBoard.updateBoard(0,0,True)
+        elif(keyboard.is_pressed('c')):
+            gameBoard.holdTetrino()
         #if no key is pressed move block down 1
         else:
             gameBoard.updateBoard(0,1,False)
