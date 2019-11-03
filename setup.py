@@ -45,8 +45,8 @@ while(playagain):
     ans=""
     while(not ans=='Y' and not ans =='N'):
         ans = input("Play Again(Y/N): ")
-        if(ans == "Y"):
+        if(ans.upper() == "Y"):
             playagain = True
             gameBoard.reset()
-        elif(ans == "N"):
+        elif(ans.upper() == "N"):
             playagain = False

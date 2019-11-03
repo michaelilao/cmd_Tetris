@@ -218,8 +218,7 @@ class gameBoard:
                 try:
                     print("\tHolding:",self.heldTetrino.name, end='')
                 except:
-                    print("\tHolding:", end='')
-
+                    print("\tHolding:", end='')                
             if(i == 4):
                 #print score on line 4
                 print("\tScore:",self.score, end='')
